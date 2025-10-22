@@ -10,14 +10,6 @@ namespace AVAnandCure.Application.Interfaces
 {
     public interface IAdminMasterRepository
     {
-        #region Blood Group
-
-        Task<int> SaveBloodGroup(BloodGroup_Request parameters);
-        Task<IEnumerable<BloodGroup_Response>> GetBloodGroupList(BloodGroup_Search parameters);
-        Task<BloodGroup_Response?> GetBloodGroupById(long Id);
-
-        #endregion
-
         #region Company Type
 
         Task<int> SaveCompanyType(CompanyType_Request parameters);
@@ -26,11 +18,59 @@ namespace AVAnandCure.Application.Interfaces
 
         #endregion
 
-        #region Employee Level
+        #region Gender
 
-        Task<int> SaveEmployeeLevel(EmployeeLevel_Request parameters);
-        Task<IEnumerable<EmployeeLevel_Response>> GetEmployeeLevelList(EmployeeLevel_Search parameters);
-        Task<EmployeeLevel_Response?> GetEmployeeLevelById(long Id);
+        Task<int> SaveGender(Gender_Request parameters);
+        Task<IEnumerable<Gender_Response>> GetGenderList(Gender_Search parameters);
+        Task<Gender_Response?> GetGenderById(long Id);
+
+        #endregion
+
+        #region Blood Group
+
+        Task<int> SaveBloodGroup(BloodGroup_Request parameters);
+        Task<IEnumerable<BloodGroup_Response>> GetBloodGroupList(BloodGroup_Search parameters);
+        Task<BloodGroup_Response?> GetBloodGroupById(long Id);
+
+        #endregion
+
+        #region Marital Status
+
+        Task<int> SaveMaritalStatus(MaritalStatus_Request parameters);
+        Task<IEnumerable<MaritalStatus_Response>> GetMaritalStatusList(MaritalStatus_Search parameters);
+        Task<MaritalStatus_Response?> GetMaritalStatusById(long Id);
+
+        #endregion
+
+        #region Product Category
+
+        Task<int> SaveProductCategory(ProductCategory_Request parameters);
+        Task<IEnumerable<ProductCategory_Response>> GetProductCategoryList(ProductCategory_Search parameters);
+        Task<ProductCategory_Response?> GetProductCategoryById(long Id);
+
+        #endregion
+
+        #region Billing Source
+
+        Task<int> SaveBillingSource(BillingSource_Request parameters);
+        Task<IEnumerable<BillingSource_Response>> GetBillingSourceList(BillingSource_Search parameters);
+        Task<BillingSource_Response?> GetBillingSourceById(long Id);
+
+        #endregion
+
+        #region Payment Mode
+
+        Task<int> SavePaymentMode(PaymentMode_Request parameters);
+        Task<IEnumerable<PaymentMode_Response>> GetPaymentModeList(PaymentMode_Search parameters);
+        Task<PaymentMode_Response?> GetPaymentModeById(long Id);
+
+        #endregion
+
+        #region User Type
+
+        Task<int> SaveUserType(UserType_Request parameters);
+        Task<IEnumerable<UserType_Response>> GetUserTypeList(UserType_Search parameters);
+        Task<UserType_Response?> GetUserTypeById(long Id);
 
         #endregion
     }
