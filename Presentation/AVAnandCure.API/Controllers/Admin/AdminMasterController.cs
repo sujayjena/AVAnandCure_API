@@ -1,4 +1,5 @@
 ﻿using AVAnandCure.Application.Enums;
+using AVAnandCure.Application.Helpers;
 using AVAnandCure.Application.Interfaces;
 using AVAnandCure.Application.Models;
 using AVAnandCure.Persistence.Repositories;
@@ -12,12 +13,13 @@ namespace AVAnandCure.API.Controllers.Admin
     {
         private ResponseModel _response;
         private readonly IAdminMasterRepository _adminMasterRepository;
-
         private readonly IConfigRefRepository _configRefRepository;
+        private IFileManager _fileManager;
 
-        public AdminMasterController(IAdminMasterRepository adminMasterRepository)
+        public AdminMasterController(IAdminMasterRepository adminMasterRepository, IFileManager fileManager)
         {
             _adminMasterRepository = adminMasterRepository;
+            _fileManager = fileManager;
 
             _response = new ResponseModel();
             _response.IsSuccess = true;
@@ -312,6 +314,85 @@ namespace AVAnandCure.API.Controllers.Admin
 
         #endregion
 
+        #region Product 
+
+        [Route("[action]")]
+        [HttpPost]
+        public async Task<ResponseModel> SaveProduct(Product_Request parameters)
+        {
+            // Product Image Upload
+            if (parameters! != null && !string.IsNullOrWhiteSpace(parameters.ProductImage_Base64))
+            {
+                var vUploadFile = _fileManager.UploadDocumentsBase64ToFile(parameters.ProductImage_Base64, "\\Uploads\\Product\\", parameters.ProductImageOriginalFileName);
+
+                if (!string.IsNullOrWhiteSpace(vUploadFile))
+                {
+                    parameters.ProductImageFileName = vUploadFile;
+                }
+            }
+
+            // Product Banner Upload
+            if (parameters! != null && !string.IsNullOrWhiteSpace(parameters.ProductBanner_Base64))
+            {
+                var vUploadFile = _fileManager.UploadDocumentsBase64ToFile(parameters.ProductBanner_Base64, "\\Uploads\\Product\\", parameters.ProductBannerOriginalFileName);
+
+                if (!string.IsNullOrWhiteSpace(vUploadFile))
+                {
+                    parameters.ProductBannerFileName = vUploadFile;
+                }
+            }
+
+            int result = await _adminMasterRepository.SaveProduct(parameters);
+
+            if (result == (int)SaveOperationEnums.NoRecordExists)
+            {
+                _response.Message = "No record exists";
+            }
+            else if (result == (int)SaveOperationEnums.ReocrdExists)
+            {
+                _response.Message = "Record already exists";
+            }
+            else if (result == (int)SaveOperationEnums.NoResult)
+            {
+                _response.Message = "Something went wrong, please try again";
+            }
+            else
+            {
+                _response.Message = "Record details saved sucessfully";
+            }
+
+            _response.Id = result;
+            return _response;
+        }
+
+        [Route("[action]")]
+        [HttpPost]
+        public async Task<ResponseModel> GetProductList(Product_Search parameters)
+        {
+            IEnumerable<Product_Response> lstRoles = await _adminMasterRepository.GetProductList(parameters);
+            _response.Data = lstRoles.ToList();
+            _response.Total = parameters.Total;
+            return _response;
+        }
+
+        [Route("[action]")]
+        [HttpPost]
+        public async Task<ResponseModel> GetProductById(long Id)
+        {
+            if (Id <= 0)
+            {
+                _response.Message = "Id is required";
+            }
+            else
+            {
+                var vResultObj = await _adminMasterRepository.GetProductById(Id);
+                _response.Data = vResultObj;
+            }
+            return _response;
+        }
+
+        #endregion
+
         #region Billing Source
 
         [Route("[action]")]
@@ -479,6 +560,122 @@ namespace AVAnandCure.API.Controllers.Admin
             else
             {
                 var vResultObj = await _adminMasterRepository.GetUserTypeById(Id);
+                _response.Data = vResultObj;
+            }
+            return _response;
+        }
+
+        #endregion
+
+        #region Godown
+
+        [Route("[action]")]
+        [HttpPost]
+        public async Task<ResponseModel> SaveGodown(Godown_Request parameters)
+        {
+            int result = await _adminMasterRepository.SaveGodown(parameters);
+
+            if (result == (int)SaveOperationEnums.NoRecordExists)
+            {
+                _response.Message = "No record exists";
+            }
+            else if (result == (int)SaveOperationEnums.ReocrdExists)
+            {
+                _response.Message = "Record already exists";
+            }
+            else if (result == (int)SaveOperationEnums.NoResult)
+            {
+                _response.Message = "Something went wrong, please try again";
+            }
+            else
+            {
+                _response.Message = "Record details saved sucessfully";
+            }
+
+            _response.Id = result;
+            return _response;
+        }
+
+
+        [Route("[action]")]
+        [HttpPost]
+        public async Task<ResponseModel> GetGodownList(Godown_Search parameters)
+        {
+            IEnumerable<Godown_Response> lstRoles = await _adminMasterRepository.GetGodownList(parameters);
+            _response.Data = lstRoles.ToList();
+            _response.Total = parameters.Total;
+            return _response;
+        }
+
+        [Route("[action]")]
+        [HttpPost]
+        public async Task<ResponseModel> GetGodownById(long Id)
+        {
+            if (Id <= 0)
+            {
+                _response.Message = "Id is required";
+            }
+            else
+            {
+                var vResultObj = await _adminMasterRepository.GetGodownById(Id);
+                _response.Data = vResultObj;
+            }
+            return _response;
+        }
+
+        #endregion
+
+        #region Relationship
+
+        [Route("[action]")]
+        [HttpPost]
+        public async Task<ResponseModel> SaveRelationship(Relationship_Request parameters)
+        {
+            int result = await _adminMasterRepository.SaveRelationship(parameters);
+
+            if (result == (int)SaveOperationEnums.NoRecordExists)
+            {
+                _response.Message = "No record exists";
+            }
+            else if (result == (int)SaveOperationEnums.ReocrdExists)
+            {
+                _response.Message = "Record already exists";
+            }
+            else if (result == (int)SaveOperationEnums.NoResult)
+            {
+                _response.Message = "Something went wrong, please try again";
+            }
+            else
+            {
+                _response.Message = "Record details saved sucessfully";
+            }
+
+            _response.Id = result;
+            return _response;
+        }
+
+
+        [Route("[action]")]
+        [HttpPost]
+        public async Task<ResponseModel> GetRelationshipList(Relationship_Search parameters)
+        {
+            IEnumerable<Relationship_Response> lstRoles = await _adminMasterRepository.GetRelationshipList(parameters);
+            _response.Data = lstRoles.ToList();
+            _response.Total = parameters.Total;
+            return _response;
+        }
+
+        [Route("[action]")]
+        [HttpPost]
+        public async Task<ResponseModel> GetRelationshipById(long Id)
+        {
+            if (Id <= 0)
+            {
+                _response.Message = "Id is required";
+            }
+            else
+            {
+                var vResultObj = await _adminMasterRepository.GetRelationshipById(Id);
                 _response.Data = vResultObj;
             }
             return _response;

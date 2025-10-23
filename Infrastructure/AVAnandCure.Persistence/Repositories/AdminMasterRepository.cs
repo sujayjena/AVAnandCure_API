@@ -207,6 +207,55 @@ namespace AVAnandCure.Persistence.Repositories
 
         #endregion
 
+        #region Product
+        public async Task<int> SaveProduct(Product_Request parameters)
+        {
+            DynamicParameters queryParameters = new DynamicParameters();
+            queryParameters.Add("@Id", parameters.Id);
+            queryParameters.Add("@ProductCategoryId", parameters.ProductCategoryId);
+            queryParameters.Add("@ProductName", parameters.ProductName);
+            queryParameters.Add("@OriginalRate", parameters.OriginalRate);
+            queryParameters.Add("@SellingRate", parameters.SellingRate);
+            queryParameters.Add("@OfferType", parameters.OfferType);
+            queryParameters.Add("@ProductDesc", parameters.ProductDesc);
+            queryParameters.Add("@ProductBenefits", parameters.ProductBenefits);
+            queryParameters.Add("@Ingredients", parameters.Ingredients);
+            queryParameters.Add("@DirectionForUsage", parameters.DirectionForUsage);
+            queryParameters.Add("@VideoLink", parameters.VideoLink);
+            queryParameters.Add("@ProductImageOriginalFileName", parameters.ProductImageOriginalFileName);
+            queryParameters.Add("@ProductImageFileName", parameters.ProductImageFileName);
+            queryParameters.Add("@ProductBannerOriginalFileName", parameters.ProductBannerOriginalFileName);
+            queryParameters.Add("@ProductBannerFileName", parameters.ProductBannerFileName);
+            queryParameters.Add("@IsActive", parameters.IsActive);
+            queryParameters.Add("@UserId", SessionManager.LoggedInUserId);
+
+            return await SaveByStoredProcedure<int>("SaveProduct", queryParameters);
+        }
+
+        public async Task<IEnumerable<Product_Response>> GetProductList(Product_Search parameters)
+        {
+            DynamicParameters queryParameters = new DynamicParameters();
+            queryParameters.Add("@SearchText", parameters.SearchText.SanitizeValue());
+            queryParameters.Add("@IsActive", parameters.IsActive);
+            queryParameters.Add("@PageNo", parameters.PageNo);
+            queryParameters.Add("@PageSize", parameters.PageSize);
+            queryParameters.Add("@Total", parameters.Total, null, System.Data.ParameterDirection.Output);
+            queryParameters.Add("@UserId", SessionManager.LoggedInUserId);
+
+            var result = await ListByStoredProcedure<Product_Response>("GetProductList", queryParameters);
+            parameters.Total = queryParameters.Get<int>("Total");
+
+            return result;
+        }
+
+        public async Task<Product_Response?> GetProductById(long Id)
+        {
+            DynamicParameters queryParameters = new DynamicParameters();
+            queryParameters.Add("@Id", Id);
+            return (await ListByStoredProcedure<Product_Response>("GetProductById", queryParameters)).FirstOrDefault();
+        }
+        #endregion
+
         #region Billing Source
 
         public async Task<int> SaveBillingSource(BillingSource_Request parameters)
@@ -317,6 +366,88 @@ namespace AVAnandCure.Persistence.Repositories
             DynamicParameters queryParameters = new DynamicParameters();
             queryParameters.Add("@Id", Id);
             return (await ListByStoredProcedure<UserType_Response>("GetUserTypeById", queryParameters)).FirstOrDefault();
+        }
+
+        #endregion
+
+        #region Godown
+
+        public async Task<int> SaveGodown(Godown_Request parameters)
+        {
+            DynamicParameters queryParameters = new DynamicParameters();
+            queryParameters.Add("@Id", parameters.Id);
+            queryParameters.Add("@GodownNumber", parameters.GodownNumber);
+            queryParameters.Add("@GodownName", parameters.GodownName);
+            queryParameters.Add("@GAddress", parameters.GAddress);
+            queryParameters.Add("@StateId", parameters.StateId);
+            queryParameters.Add("@DistrictId", parameters.DistrictId);
+            queryParameters.Add("@CityId", parameters.CityId);
+            queryParameters.Add("@PinCode", parameters.PinCode);
+            queryParameters.Add("@IsActive", parameters.IsActive);
+            queryParameters.Add("@UserId", SessionManager.LoggedInUserId);
+
+            return await SaveByStoredProcedure<int>("SaveGodown", queryParameters);
+        }
+
+        public async Task<IEnumerable<Godown_Response>> GetGodownList(Godown_Search parameters)
+        {
+            DynamicParameters queryParameters = new DynamicParameters();
+            queryParameters.Add("@SearchText", parameters.SearchText.SanitizeValue());
+            queryParameters.Add("@IsActive", parameters.IsActive);
+            queryParameters.Add("@PageNo", parameters.PageNo);
+            queryParameters.Add("@PageSize", parameters.PageSize);
+            queryParameters.Add("@Total", parameters.Total, null, System.Data.ParameterDirection.Output);
+            queryParameters.Add("@UserId", SessionManager.LoggedInUserId);
+
+            var result = await ListByStoredProcedure<Godown_Response>("GetGodownList", queryParameters);
+            parameters.Total = queryParameters.Get<int>("Total");
+
+            return result;
+        }
+
+        public async Task<Godown_Response?> GetGodownById(long Id)
+        {
+            DynamicParameters queryParameters = new DynamicParameters();
+            queryParameters.Add("@Id", Id);
+            return (await ListByStoredProcedure<Godown_Response>("GetGodownById", queryParameters)).FirstOrDefault();
+        }
+
+        #endregion
+
+        #region Relationship
+
+        public async Task<int> SaveRelationship(Relationship_Request parameters)
+        {
+            DynamicParameters queryParameters = new DynamicParameters();
+            queryParameters.Add("@Id", parameters.Id);
+            queryParameters.Add("@Relationship", parameters.Relationship);
+            queryParameters.Add("@IsActive", parameters.IsActive);
+            queryParameters.Add("@UserId", SessionManager.LoggedInUserId);
+
+            return await SaveByStoredProcedure<int>("SaveRelationship", queryParameters);
+        }
+
+        public async Task<IEnumerable<Relationship_Response>> GetRelationshipList(Relationship_Search parameters)
+        {
+            DynamicParameters queryParameters = new DynamicParameters();
+            queryParameters.Add("@SearchText", parameters.SearchText.SanitizeValue());
+            queryParameters.Add("@IsActive", parameters.IsActive);
+            queryParameters.Add("@PageNo", parameters.PageNo);
+            queryParameters.Add("@PageSize", parameters.PageSize);
+            queryParameters.Add("@Total", parameters.Total, null, System.Data.ParameterDirection.Output);
+            queryParameters.Add("@UserId", SessionManager.LoggedInUserId);
+
+            var result = await ListByStoredProcedure<Relationship_Response>("GetRelationshipList", queryParameters);
+            parameters.Total = queryParameters.Get<int>("Total");
+
+            return result;
+        }
+
+        public async Task<Relationship_Response?> GetRelationshipById(long Id)
+        {
+            DynamicParameters queryParameters = new DynamicParameters();
+            queryParameters.Add("@Id", Id);
+            return (await ListByStoredProcedure<Relationship_Response>("GetRelationshipById", queryParameters)).FirstOrDefault();
         }
 
         #endregion

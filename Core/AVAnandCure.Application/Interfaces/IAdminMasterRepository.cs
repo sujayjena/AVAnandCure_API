@@ -43,11 +43,15 @@ namespace AVAnandCure.Application.Interfaces
         #endregion
 
         #region Product Category
-
         Task<int> SaveProductCategory(ProductCategory_Request parameters);
         Task<IEnumerable<ProductCategory_Response>> GetProductCategoryList(ProductCategory_Search parameters);
         Task<ProductCategory_Response?> GetProductCategoryById(long Id);
+        #endregion
 
+        #region Product
+        Task<int> SaveProduct(Product_Request parameters);
+        Task<IEnumerable<Product_Response>> GetProductList(Product_Search parameters);
+        Task<Product_Response?> GetProductById(long Id);
         #endregion
 
         #region Billing Source
@@ -71,6 +75,22 @@ namespace AVAnandCure.Application.Interfaces
         Task<int> SaveUserType(UserType_Request parameters);
         Task<IEnumerable<UserType_Response>> GetUserTypeList(UserType_Search parameters);
         Task<UserType_Response?> GetUserTypeById(long Id);
+
+        #endregion
+
+        #region Godown
+
+        Task<int> SaveGodown(Godown_Request parameters);
+        Task<IEnumerable<Godown_Response>> GetGodownList(Godown_Search parameters);
+        Task<Godown_Response?> GetGodownById(long Id);
+
+        #endregion
+
+        #region Relationship
+
+        Task<int> SaveRelationship(Relationship_Request parameters);
+        Task<IEnumerable<Relationship_Response>> GetRelationshipList(Relationship_Search parameters);
+        Task<Relationship_Response?> GetRelationshipById(long Id);
 
         #endregion
     }
