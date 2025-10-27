@@ -93,5 +93,29 @@ namespace AVAnandCure.Application.Interfaces
         Task<Relationship_Response?> GetRelationshipById(long Id);
 
         #endregion
+
+        #region Pharma
+
+        Task<int> SavePharma(Pharma_Request parameters);
+        Task<IEnumerable<Pharma_Response>> GetPharmaList(Pharma_Search parameters);
+        Task<Pharma_Response?> GetPharmaById(long Id);
+
+        #endregion
+
+        #region Supplier Product
+
+        Task<int> SaveSupplierProduct(SupplierProduct_Request parameters);
+        Task<IEnumerable<SupplierProduct_Response>> GetSupplierProductList(SupplierProduct_Search parameters);
+        Task<SupplierProduct_Response?> GetSupplierProductById(long Id);
+
+        #endregion
+
+        #region Clinic
+
+        Task<int> SaveClinic(Clinic_Request parameters);
+        Task<IEnumerable<Clinic_Response>> GetClinicList(Clinic_Search parameters);
+        Task<Clinic_Response?> GetClinicById(long Id);
+
+        #endregion
     }
 }

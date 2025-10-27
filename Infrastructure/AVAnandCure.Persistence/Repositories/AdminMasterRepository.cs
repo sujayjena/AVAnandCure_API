@@ -451,5 +451,130 @@ namespace AVAnandCure.Persistence.Repositories
         }
 
         #endregion
+
+        #region Pharma
+
+        public async Task<int> SavePharma(Pharma_Request parameters)
+        {
+            DynamicParameters queryParameters = new DynamicParameters();
+            queryParameters.Add("@Id", parameters.Id);
+            queryParameters.Add("@PharmaName", parameters.PharmaName);
+            queryParameters.Add("@IsActive", parameters.IsActive);
+            queryParameters.Add("@UserId", SessionManager.LoggedInUserId);
+
+            return await SaveByStoredProcedure<int>("SavePharma", queryParameters);
+        }
+
+        public async Task<IEnumerable<Pharma_Response>> GetPharmaList(Pharma_Search parameters)
+        {
+            DynamicParameters queryParameters = new DynamicParameters();
+            queryParameters.Add("@SearchText", parameters.SearchText.SanitizeValue());
+            queryParameters.Add("@IsActive", parameters.IsActive);
+            queryParameters.Add("@PageNo", parameters.PageNo);
+            queryParameters.Add("@PageSize", parameters.PageSize);
+            queryParameters.Add("@Total", parameters.Total, null, System.Data.ParameterDirection.Output);
+            queryParameters.Add("@UserId", SessionManager.LoggedInUserId);
+
+            var result = await ListByStoredProcedure<Pharma_Response>("GetPharmaList", queryParameters);
+            parameters.Total = queryParameters.Get<int>("Total");
+
+            return result;
+        }
+
+        public async Task<Pharma_Response?> GetPharmaById(long Id)
+        {
+            DynamicParameters queryParameters = new DynamicParameters();
+            queryParameters.Add("@Id", Id);
+            return (await ListByStoredProcedure<Pharma_Response>("GetPharmaById", queryParameters)).FirstOrDefault();
+        }
+
+        #endregion
+
+        #region Supplier Product
+
+        public async Task<int> SaveSupplierProduct(SupplierProduct_Request parameters)
+        {
+            DynamicParameters queryParameters = new DynamicParameters();
+            queryParameters.Add("@Id", parameters.Id);
+            queryParameters.Add("@SupplierProduct", parameters.SupplierProduct);
+            queryParameters.Add("@IsActive", parameters.IsActive);
+            queryParameters.Add("@UserId", SessionManager.LoggedInUserId);
+
+            return await SaveByStoredProcedure<int>("SaveSupplierProduct", queryParameters);
+        }
+
+        public async Task<IEnumerable<SupplierProduct_Response>> GetSupplierProductList(SupplierProduct_Search parameters)
+        {
+            DynamicParameters queryParameters = new DynamicParameters();
+            queryParameters.Add("@SearchText", parameters.SearchText.SanitizeValue());
+            queryParameters.Add("@IsActive", parameters.IsActive);
+            queryParameters.Add("@PageNo", parameters.PageNo);
+            queryParameters.Add("@PageSize", parameters.PageSize);
+            queryParameters.Add("@Total", parameters.Total, null, System.Data.ParameterDirection.Output);
+            queryParameters.Add("@UserId", SessionManager.LoggedInUserId);
+
+            var result = await ListByStoredProcedure<SupplierProduct_Response>("GetSupplierProductList", queryParameters);
+            parameters.Total = queryParameters.Get<int>("Total");
+
+            return result;
+        }
+
+        public async Task<SupplierProduct_Response?> GetSupplierProductById(long Id)
+        {
+            DynamicParameters queryParameters = new DynamicParameters();
+            queryParameters.Add("@Id", Id);
+            return (await ListByStoredProcedure<SupplierProduct_Response>("GetSupplierProductById", queryParameters)).FirstOrDefault();
+        }
+
+        #endregion
+
+        #region Clinic
+
+        public async Task<int> SaveClinic(Clinic_Request parameters)
+        {
+            DynamicParameters queryParameters = new DynamicParameters();
+            queryParameters.Add("@Id", parameters.Id);
+            queryParameters.Add("@ClinicName", parameters.ClinicName);
+            queryParameters.Add("@CompanyId", parameters.CompanyId);
+            queryParameters.Add("@MobileNo", parameters.MobileNo);
+            queryParameters.Add("@EmailId", parameters.EmailId);
+            queryParameters.Add("@ClinicHead", parameters.ClinicHead);
+            queryParameters.Add("@CAddress", parameters.CAddress);
+            queryParameters.Add("@StateId", parameters.StateId);
+            queryParameters.Add("@DistrictId", parameters.DistrictId);
+            queryParameters.Add("@CityId", parameters.CityId);
+            queryParameters.Add("@PinCode", parameters.PinCode);
+            queryParameters.Add("@NoofClinicUser", parameters.NoofClinicUser);
+            queryParameters.Add("@IsActive", parameters.IsActive);
+            queryParameters.Add("@UserId", SessionManager.LoggedInUserId);
+
+            return await SaveByStoredProcedure<int>("SaveClinic", queryParameters);
+        }
+
+        public async Task<IEnumerable<Clinic_Response>> GetClinicList(Clinic_Search parameters)
+        {
+            DynamicParameters queryParameters = new DynamicParameters();
+            queryParameters.Add("@CompanyId", parameters.CompanyId);
+            queryParameters.Add("@SearchText", parameters.SearchText.SanitizeValue());
+            queryParameters.Add("@IsActive", parameters.IsActive);
+            queryParameters.Add("@PageNo", parameters.PageNo);
+            queryParameters.Add("@PageSize", parameters.PageSize);
+            queryParameters.Add("@Total", parameters.Total, null, System.Data.ParameterDirection.Output);
+            queryParameters.Add("@UserId", SessionManager.LoggedInUserId);
+
+            var result = await ListByStoredProcedure<Clinic_Response>("GetClinicList", queryParameters);
+            parameters.Total = queryParameters.Get<int>("Total");
+
+            return result;
+        }
+
+        public async Task<Clinic_Response?> GetClinicById(long Id)
+        {
+            DynamicParameters queryParameters = new DynamicParameters();
+            queryParameters.Add("@Id", Id);
+            return (await ListByStoredProcedure<Clinic_Response>("GetClinicById", queryParameters)).FirstOrDefault();
+        }
+
+        #endregion
     }
 }

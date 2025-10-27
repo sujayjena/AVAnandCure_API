@@ -278,4 +278,86 @@ namespace AVAnandCure.Application.Models
     }
 
     #endregion
+
+    #region Pharma
+    public class Pharma_Search : BaseSearchEntity
+    {
+    }
+
+    public class Pharma_Request : BaseEntity
+    {
+        public string? PharmaName { get; set; }
+        public bool? IsActive { get; set; }
+    }
+
+    public class Pharma_Response : BaseResponseEntity
+    {
+        public string? PharmaName { get; set; }
+        public bool? IsActive { get; set; }
+    }
+
+    #endregion
+
+    #region Supplier Product
+    public class SupplierProduct_Search : BaseSearchEntity
+    {
+    }
+
+    public class SupplierProduct_Request : BaseEntity
+    {
+        public string? SupplierProduct { get; set; }
+        public bool? IsActive { get; set; }
+    }
+
+    public class SupplierProduct_Response : BaseResponseEntity
+    {
+        public string? SupplierProduct { get; set; }
+        public bool? IsActive { get; set; }
+    }
+
+    #endregion
+
+    #region Clinic
+    public class Clinic_Search : BaseSearchEntity
+    {
+        public int? CompanyId { get; set; }
+    }
+
+    public class Clinic_Request : BaseEntity
+    {
+        public string? ClinicName { get; set; }
+        public int? CompanyId { get; set; }
+        public string? MobileNo { get; set; }
+        public string? EmailId { get; set; }
+        public string? ClinicHead { get; set; }
+        public string? CAddress { get; set; }
+        public int? StateId { get; set; }
+        public int? DistrictId { get; set; }
+        public int? CityId { get; set; }
+        public string? PinCode { get; set; }
+        public int? NoofClinicUser { get; set; }
+        public bool? IsActive { get; set; }
+    }
+
+    public class Clinic_Response : BaseResponseEntity
+    {
+        public string? ClinicName { get; set; }
+        public int? CompanyId { get; set; }
+        public string? CompanyName { get; set; }
+        public string? MobileNo { get; set; }
+        public string? EmailId { get; set; }
+        public string? ClinicHead { get; set; }
+        public string? CAddress { get; set; }
+        public int? StateId { get; set; }
+        public string? StateName { get; set; }
+        public int? DistrictId { get; set; }
+        public string? DistrictName { get; set; }
+        public int? CityId { get; set; }
+        public string? CityName { get; set; }
+        public string? PinCode { get; set; }
+        public int? NoofClinicUser { get; set; }
+        public bool? IsActive { get; set; }
+    }
+
+    #endregion
 }
